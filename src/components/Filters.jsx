@@ -33,7 +33,7 @@ function Filters({onSearchClick, leastPop, onSliderChange}) {
             onChange={handleChange}
             style={{ width: "300px" }}
         />
-        <p>Slider value: {sliderValue}</p>
+        <p>Preciptation chance: {sliderValue}% or greater</p>
         </div>
   );
 }

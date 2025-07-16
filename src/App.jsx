@@ -7,6 +7,7 @@ const API_KEY = import.meta.env.VITE_APP_API_KEY
 function App() {
   const [forecastArray, setForecastArray] = useState([])
   const [leastPop, setLeastPop] = useState(null);
+  // const [avgHighTemp, setAvgHighTemp] = useState(0);
 
   const formatDateFull = (timestamp) => {
     const date = new Date(timestamp);
@@ -54,8 +55,8 @@ function App() {
 
   const handleSliderChange = (sliderValue) => {
     console.log("Slider value changed: ", sliderValue);
-    // const results = forecastArray.filter((item) => formatDateDay(item.datetime) === searchTerm);
-    // setLeastPop
+    const results = forecastArray.filter((item) => item.pop >= sliderValue);
+    setForecastArray(results);
   };
 
   return (
