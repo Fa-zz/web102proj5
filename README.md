@@ -40,7 +40,14 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<div>
+    <a href="https://www.loom.com/share/d052ba00984643859cac9352d70ad387">
+        <p>Baltimore, MD Weather Forecast - 15 July 2025 - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/d052ba00984643859cac9352d70ad387">
+        <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/d052ba00984643859cac9352d70ad387-844dc0ddabe977bf-full-play.gif">
+    </a>
+</div>
 
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with ...  
@@ -48,6 +55,7 @@ GIF created with ...
 [Kap](https://getkap.co/) for macOS
 [ScreenToGif](https://www.screentogif.com/) for Windows
 [peek](https://github.com/phw/peek) for Linux. -->
+Loom
 
 ## Notes
 
