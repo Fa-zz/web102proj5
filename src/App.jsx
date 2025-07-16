@@ -7,7 +7,9 @@ const API_KEY = import.meta.env.VITE_APP_API_KEY
 function App() {
   const [forecastArray, setForecastArray] = useState([])
   const [leastPop, setLeastPop] = useState(null);
-  // const [avgHighTemp, setAvgHighTemp] = useState(0);
+  const [avgHighTemp, setAvgHighTemp] = useState(0);
+  const [avgLowTemp, setAvgLowTemp] = useState(0);
+  const [avgPreciptationChance, setAvgPrecipitationChance] = useState(0);
 
   const formatDateFull = (timestamp) => {
     const date = new Date(timestamp);
@@ -44,6 +46,20 @@ function App() {
         current.pop < min.pop ? current : min
       );
       setLeastPop(lowestPopDay.pop);
+      let avgHighTemp = 0;
+      let avgLowTemp = 0;
+      let avgPreciptationChance = 0;
+      for (let i = 0; i < forecastArray.length; i++) {
+        avgHighTemp += forecastArray[i].max_temp;
+        avgLowTemp += forecastArray[i].min_temp;
+        avgPreciptationChance += forecastArray[i].pop;
+      }
+      avgHighTemp = (avgHighTemp / forecastArray.length);
+      avgLowTemp = (avgLowTemp / forecastArray.length);
+      avgPreciptationChance = (avgPreciptationChance / forecastArray.length);
+      setAvgHighTemp(avgHighTemp);
+      setAvgLowTemp(avgLowTemp);
+      setAvgPrecipitationChance(avgPreciptationChance);
     }
   }, [forecastArray]);
 
@@ -62,7 +78,8 @@ function App() {
   return (
   <>
     <div>
-      <h2>Weekly Weather Forecast for Baltimore, Maryland</h2>
+      <h2>Weather Forecast for Baltimore, Maryland</h2>
+      <p>Average high: {avgHighTemp}°F, Average low: {avgLowTemp}°F, Average preciptation chance: {avgPreciptationChance}%</p>
       {leastPop === null ? (
         <p>Loading forecast...</p>
       ) : (
