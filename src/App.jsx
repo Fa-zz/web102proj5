@@ -6,6 +6,7 @@ const API_KEY = import.meta.env.VITE_APP_API_KEY
 
 function App() {
   const [forecastArray, setForecastArray] = useState([])
+  const [mainForecastArray, setMainForecastArray] = useState([])
   const [leastPop, setLeastPop] = useState(null);
   const [avgHighTemp, setAvgHighTemp] = useState(0);
   const [avgLowTemp, setAvgLowTemp] = useState(0);
@@ -34,8 +35,9 @@ function App() {
         "https://api.weatherbit.io/v2.0/forecast/daily?city=Baltimore,MD&units=I&key=" 
         + API_KEY
       )
-      const json = await response.json()
-      setForecastArray(json["data"])
+      const json = await response.json();
+      setForecastArray(json["data"]);
+      setMainForecastArray(json["data"]);
     }
     fetchForecastData().catch(console.error)
   }, []);
@@ -65,13 +67,13 @@ function App() {
 
   const handleSearchClick = (searchTerm) => {
     console.log("Search clicked. Term:", searchTerm);
-    const results = forecastArray.filter((item) => formatDateDay(item.datetime) === searchTerm);
+    const results = mainForecastArray.filter((item) => formatDateDay(item.datetime) === searchTerm);
     setForecastArray(results);
   };
 
   const handleSliderChange = (sliderValue) => {
     console.log("Slider value changed: ", sliderValue);
-    const results = forecastArray.filter((item) => item.pop >= sliderValue);
+    const results = mainForecastArray.filter((item) => item.pop >= sliderValue);
     setForecastArray(results);
   };
 
