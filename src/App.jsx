@@ -6,6 +6,7 @@ const API_KEY = import.meta.env.VITE_APP_API_KEY
 
 function App() {
   const [forecastArray, setForecastArray] = useState([])
+  const [leastPop, setLeastPop] = useState(null);
 
   const formatDateFull = (timestamp) => {
     const date = new Date(timestamp);
@@ -33,8 +34,17 @@ function App() {
       const json = await response.json()
       setForecastArray(json["data"])
     }
-  fetchForecastData().catch(console.error)
+    fetchForecastData().catch(console.error)
   }, []);
+
+  useEffect(() => {
+    if (forecastArray.length > 0) {
+      const lowestPopDay = forecastArray.reduce((min, current) =>
+        current.pop < min.pop ? current : min
+      );
+      setLeastPop(lowestPopDay.pop);
+    }
+  }, [forecastArray]);
 
   const handleSearchClick = (searchTerm) => {
     console.log("Search clicked. Term:", searchTerm);
@@ -42,16 +52,32 @@ function App() {
     setForecastArray(results);
   };
 
+  const handleSliderChange = (sliderValue) => {
+    console.log("Slider value changed: ", sliderValue);
+    // const results = forecastArray.filter((item) => formatDateDay(item.datetime) === searchTerm);
+    // setLeastPop
+  };
+
   return (
-    <>
-      <div>
-        <h2>Weekly Weather Forecast for Baltimore, Maryland</h2>
-        <Filters onSearchClick={handleSearchClick} />
-        {forecastArray.map((forecast, i) => (
-          <DayCard forecast={forecast} key={i} formatDate={formatDateFull} />
-        ))}
-      </div>
-    </>
+  <>
+    <div>
+      <h2>Weekly Weather Forecast for Baltimore, Maryland</h2>
+      {leastPop === null ? (
+        <p>Loading forecast...</p>
+      ) : (
+        <>
+          <Filters
+            onSearchClick={handleSearchClick}
+            leastPop={leastPop}
+            onSliderChange={handleSliderChange}
+          />
+          {forecastArray.map((forecast, i) => (
+            <DayCard forecast={forecast} key={i} formatDate={formatDateFull} />
+          ))}
+        </>
+      )}
+    </div>
+  </>
   )
 }
 
