@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import DayCard from "./components/DayCard"
+import Forecast from "./components/Forecast"
 import Filters from "./components/Filters"
 const API_KEY = import.meta.env.VITE_APP_API_KEY
 
@@ -20,7 +20,7 @@ function App() {
 
 
   /**
-   * Formates a "7-15-2025" timestamp into "Tuesday, July 15, 2025".
+   * Formates a "7-15-2025" timestamp into "Tuesday, July 15, 2025". Used for human readable date formatting and dynamic url
    * @param timestamp - A timestamp
    * @returns - A date written out
    */
@@ -35,7 +35,7 @@ function App() {
   };
 
   /**
-   * Formates a "7-15-2025" timestamp into "Tuesday".
+   * Formates a "7-15-2025" timestamp into "Tuesday". Used in filtering
    * @param timestamp - A timestamp
    * @returns - A date, just the day
    */
@@ -120,7 +120,7 @@ function App() {
             onSliderChange={handleSliderChange}
           />
           {filteredForecastArray.map((forecast, i) => (
-            <DayCard forecast={forecast} key={i} formatDate={formatDateFull} />
+            <Forecast forecast={forecast} key={i} formatDate={formatDateFull} />
           ))}
         </>
       )}
