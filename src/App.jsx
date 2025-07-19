@@ -18,7 +18,6 @@ function App() {
   const [avgLowTemp, setAvgLowTemp] = useState(0);
   const [avgPop, setAvgPop] = useState(0);
 
-
   /**
    * Formates a "7-15-2025" timestamp into "Tuesday, July 15, 2025". Used for human readable date formatting and dynamic url
    * @param timestamp - A timestamp
@@ -46,18 +45,26 @@ function App() {
     });
   };
 
-  // This useEffect hook makes the API query, populates filteredForecastArray and mainForecastArray
+  // This useEffect hook makes the API query, populates filteredForecastArray and mainForecastArray. Local storage data is retrieved if varables already exist
   useEffect(() => {
     const fetchForecastData = async () => {
       const response = await fetch(
-        "https://api.weatherbit.io/v2.0/forecast/daily?city=Baltimore,MD&units=I&key=" 
-        + API_KEY
-      )
+        "https://api.weatherbit.io/v2.0/forecast/daily?city=Baltimore,MD&units=I&key=" + API_KEY
+      );
       const json = await response.json();
       setFilteredForecastArray(json["data"]);
       setMainForecastArray(json["data"]);
+      localStorage.setItem("forecastData", JSON.stringify(json["data"])); // ⬅️ Save it
+    };
+
+    const storedData = localStorage.getItem("forecastData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setMainForecastArray(parsedData);
+      setFilteredForecastArray(parsedData);
+    } else {
+      fetchForecastData().catch(console.error); // ⬅️ Only fetch if nothing in localStorage
     }
-    fetchForecastData().catch(console.error)
   }, []);
 
   // Once mainForecastArray is populated, this hook examines the data and populates lowestPopDay, avgHighTemp, avgLowTemp, and avgPrecipitationChance
