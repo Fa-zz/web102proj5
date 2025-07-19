@@ -5,13 +5,25 @@ import Filters from "./components/Filters"
 const API_KEY = import.meta.env.VITE_APP_API_KEY
 
 function App() {
-  const [forecastArray, setForecastArray] = useState([])
+  // filteredForecastArray: initialized to the json response of the API after query, which is a forecast. Can be altered by user after filter is applied. User sees this data
+  const [filteredForecastArray, setFilteredForecastArray] = useState([])
+  // mainForecastArray: json response after query. Is not changed, and user does not see this array unless no filter is applied
   const [mainForecastArray, setMainForecastArray] = useState([])
+  // leastPop: the least probability of preciptation of any array object (forecast)
   const [leastPop, setLeastPop] = useState(null);
+  // avgHighTemp: the averaged high temp of each array object
+  // avgLowtemp: the averaged low temp of each array object
+  // avgPop: the averaged probability of preciptation of each array object
   const [avgHighTemp, setAvgHighTemp] = useState(0);
   const [avgLowTemp, setAvgLowTemp] = useState(0);
-  const [avgPreciptationChance, setAvgPrecipitationChance] = useState(0);
+  const [avgPop, setAvgPop] = useState(0);
 
+
+  /**
+   * Formates a "7-15-2025" timestamp into "Tuesday, July 15, 2025".
+   * @param timestamp - A timestamp
+   * @returns - A date written out
+   */
   const formatDateFull = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("en-US", {
@@ -22,6 +34,11 @@ function App() {
     });
   };
 
+  /**
+   * Formates a "7-15-2025" timestamp into "Tuesday".
+   * @param timestamp - A timestamp
+   * @returns - A date, just the day
+   */
   const formatDateDay = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("en-US", {
@@ -29,6 +46,7 @@ function App() {
     });
   };
 
+  // This useEffect hook makes the API query, populates filteredForecastArray and mainForecastArray
   useEffect(() => {
     const fetchForecastData = async () => {
       const response = await fetch(
@@ -36,52 +54,62 @@ function App() {
         + API_KEY
       )
       const json = await response.json();
-      setForecastArray(json["data"]);
+      setFilteredForecastArray(json["data"]);
       setMainForecastArray(json["data"]);
     }
     fetchForecastData().catch(console.error)
   }, []);
 
+  // Once mainForecastArray is populated, this hook examines the data and populates lowestPopDay, avgHighTemp, avgLowTemp, and avgPrecipitationChance
   useEffect(() => {
-    if (forecastArray.length > 0) {
-      const lowestPopDay = forecastArray.reduce((min, current) =>
+    if (mainForecastArray.length > 0) {
+      const lowestPopDay = mainForecastArray.reduce((min, current) =>
         current.pop < min.pop ? current : min
       );
       setLeastPop(lowestPopDay.pop);
       let avgHighTemp = 0;
       let avgLowTemp = 0;
       let avgPreciptationChance = 0;
-      for (let i = 0; i < forecastArray.length; i++) {
-        avgHighTemp += forecastArray[i].max_temp;
-        avgLowTemp += forecastArray[i].min_temp;
-        avgPreciptationChance += forecastArray[i].pop;
+      for (let i = 0; i < mainForecastArray.length; i++) {
+        avgHighTemp += mainForecastArray[i].max_temp;
+        avgLowTemp += mainForecastArray[i].min_temp;
+        avgPreciptationChance += mainForecastArray[i].pop;
       }
-      avgHighTemp = (avgHighTemp / forecastArray.length);
-      avgLowTemp = (avgLowTemp / forecastArray.length);
-      avgPreciptationChance = (avgPreciptationChance / forecastArray.length);
+      avgHighTemp = (avgHighTemp / mainForecastArray.length);
+      avgLowTemp = (avgLowTemp / mainForecastArray.length);
+      avgPreciptationChance = (avgPreciptationChance / mainForecastArray.length);
       setAvgHighTemp(avgHighTemp);
       setAvgLowTemp(avgLowTemp);
-      setAvgPrecipitationChance(avgPreciptationChance);
+      setAvgPop(avgPreciptationChance);
     }
-  }, [forecastArray]);
+  }, [mainForecastArray]);
 
+  /**
+   * Handles functionality of the searchbar filter as used in the Filters component. mainArray is filtered, then filteredArray is set to the filtered array
+   * @param searchTerm - A search term that should be a day, e.g., "Tuesday"
+   */
+  // TODO: Be able to handle diff. variations of dates
   const handleSearchClick = (searchTerm) => {
     console.log("Search clicked. Term:", searchTerm);
     const results = mainForecastArray.filter((item) => formatDateDay(item.datetime) === searchTerm);
-    setForecastArray(results);
+    setFilteredForecastArray(results);
   };
 
+  /**
+   * Handles functionality of the slider filter as used in the Filters component. mainArray is filtered, then filteredArray is set to the filtered array
+   * @param searchTerm - An integer value as picked from the slider, e.g., 80
+   */
   const handleSliderChange = (sliderValue) => {
     console.log("Slider value changed: ", sliderValue);
     const results = mainForecastArray.filter((item) => item.pop >= sliderValue);
-    setForecastArray(results);
+    setFilteredForecastArray(results);
   };
 
   return (
   <>
     <div>
       <h2>Weather Forecast for Baltimore, Maryland</h2>
-      <p>Average high: {avgHighTemp}°F, Average low: {avgLowTemp}°F, Average preciptation chance: {avgPreciptationChance}%</p>
+      <p>Average high: {avgHighTemp}°F, Average low: {avgLowTemp}°F, Average preciptation chance: {avgPop}%</p>
       {leastPop === null ? (
         <p>Loading forecast...</p>
       ) : (
@@ -91,7 +119,7 @@ function App() {
             leastPop={leastPop}
             onSliderChange={handleSliderChange}
           />
-          {forecastArray.map((forecast, i) => (
+          {filteredForecastArray.map((forecast, i) => (
             <DayCard forecast={forecast} key={i} formatDate={formatDateFull} />
           ))}
         </>

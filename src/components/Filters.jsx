@@ -1,10 +1,16 @@
 import { useState } from "react";
 
 function Filters({onSearchClick, leastPop, onSliderChange}) {
+    // searchTerm: updated by what the user types into the search box
     const [searchTerm, setSearchTerm] = useState("");
+    // sliderValue: updated by what the user selects in the slider
     const [sliderValue, setSliderValue] = useState(leastPop);
 
-    const handleChange = (e) => {
+  /**
+   * Gets the new slider value, updates the slider to the new value, and calls the handleSliderChange function
+   * @param e - Event data
+   */
+    const sliderChange = (e) => {
         const newValue = parseInt(e.target.value);
         setSliderValue(newValue);        // Update state
         onSliderChange(newValue);        // Call external function
@@ -30,7 +36,7 @@ function Filters({onSearchClick, leastPop, onSliderChange}) {
             min="0"
             max="100"
             value={sliderValue}
-            onChange={handleChange}
+            onChange={sliderChange}
             style={{ width: "300px" }}
         />
         <p>Preciptation chance: {sliderValue}% or greater</p>
