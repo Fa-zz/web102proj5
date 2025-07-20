@@ -2,6 +2,9 @@ import { Link } from "react-router-dom"
 
 const Forecast = ({forecast, formatDate}) => {
     const forecastImgUrl = "https://cdn.weatherbit.io/static/img/icons/"
+    const data = {
+        "forecast": forecast
+    };
 
     return (
         <div className="forecastCard">
@@ -9,6 +12,7 @@ const Forecast = ({forecast, formatDate}) => {
             style={{ color: "Blue" }}
             to={`/forecast/${forecast.datetime}`}
             key={forecast.datetime}
+            state={data}
             >
                 <h3>Forecast for {formatDate(forecast.datetime)}</h3>
             </Link>

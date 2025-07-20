@@ -3,6 +3,7 @@ import './App.css'
 import Forecast from "./components/Forecast"
 import Filters from "./components/Filters"
 const API_KEY = import.meta.env.VITE_APP_API_KEY
+import { formatDateFull, formatDateDay } from './formatDate.js';
 
 function App() {
   // filteredForecastArray: initialized to the json response of the API after query, which is a forecast. Can be altered by user after filter is applied. User sees this data
@@ -18,32 +19,6 @@ function App() {
   const [avgLowTemp, setAvgLowTemp] = useState(0);
   const [avgPop, setAvgPop] = useState(0);
 
-  /**
-   * Formates a "7-15-2025" timestamp into "Tuesday, July 15, 2025". Used for human readable date formatting and dynamic url
-   * @param timestamp - A timestamp
-   * @returns - A date written out
-   */
-  const formatDateFull = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",   // "Tuesday"
-      year: "numeric",   // "2025"
-      month: "long",     // "July"
-      day: "numeric",    // "15"
-    });
-  };
-
-  /**
-   * Formates a "7-15-2025" timestamp into "Tuesday". Used in filtering
-   * @param timestamp - A timestamp
-   * @returns - A date, just the day
-   */
-  const formatDateDay = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long"   // "Tuesday"
-    });
-  };
 
   // This useEffect hook makes the API query, populates filteredForecastArray and mainForecastArray. Local storage data is retrieved if varables already exist
   useEffect(() => {
