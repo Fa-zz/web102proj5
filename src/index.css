@@ -72,12 +72,21 @@ button:focus-visible {
   max-width: 800px;
   padding: 20px;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers h1 and forecastText horizontally */
+  text-align: center;   /* Ensures text lines are centered */
+}
+
+.forecastCard h1 {
+  margin-bottom: 20px;
 }
 
 .forecastContent {
   display: flex;
-  align-items: flex-start; /* Aligns text to the top of the image */
-  gap: 20px; /* Spacing between image and text */
+  flex-direction: column; /* Stack image and text vertically if needed */
+  align-items: center;
+  gap: 10px;
 }
 
 .forecastImg {
@@ -89,5 +98,6 @@ button:focus-visible {
 .forecastText {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
 }

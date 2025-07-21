@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
 import './App.css'
 import Forecast from "./components/Forecast"
 import Filters from "./components/Filters"
@@ -18,28 +19,20 @@ function App() {
   const [avgHighTemp, setAvgHighTemp] = useState(0);
   const [avgLowTemp, setAvgLowTemp] = useState(0);
   const [avgPop, setAvgPop] = useState(0);
-
+  const { state } = useLocation();
 
   // This useEffect hook makes the API query, populates filteredForecastArray and mainForecastArray. Local storage data is retrieved if varables already exist
   useEffect(() => {
     const fetchForecastData = async () => {
       const response = await fetch(
-        "https://api.weatherbit.io/v2.0/forecast/daily?city=Baltimore,MD&units=I&key=" + API_KEY
+        "https://api.weatherbit.io/v2.0/forecast/daily?city=" + state.city + "," + state.state + "&units=I&key=" + API_KEY
       );
       const json = await response.json();
       setFilteredForecastArray(json["data"]);
       setMainForecastArray(json["data"]);
-      localStorage.setItem("forecastData", JSON.stringify(json["data"])); // ⬅️ Save it
     };
 
-    const storedData = localStorage.getItem("forecastData");
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setMainForecastArray(parsedData);
-      setFilteredForecastArray(parsedData);
-    } else {
-      fetchForecastData().catch(console.error); // ⬅️ Only fetch if nothing in localStorage
-    }
+    fetchForecastData().catch(console.error); // ⬅️ Only fetch if nothing in localStorage
   }, []);
 
   // Once mainForecastArray is populated, this hook examines the data and populates lowestPopDay, avgHighTemp, avgLowTemp, and avgPrecipitationChance
@@ -82,7 +75,6 @@ function App() {
    * @param searchTerm - An integer value as picked from the slider, e.g., 80
    */
   const handleSliderChange = (sliderValue) => {
-    console.log("Slider value changed: ", sliderValue);
     const results = mainForecastArray.filter((item) => item.pop >= sliderValue);
     setFilteredForecastArray(results);
   };
@@ -90,10 +82,10 @@ function App() {
   return (
   <>
     <div>
-      <h2>Weather Forecast for Baltimore, Maryland</h2>
+      <h2>Weather Forecast for {state.city}, {state.state}</h2>
       <p>Average high: {avgHighTemp}°F, Average low: {avgLowTemp}°F, Average preciptation chance: {avgPop}%</p>
       {leastPop === null ? (
-        <p>Loading forecast...</p>
+        <p>Loading forecast...(if this takes too long, you may not have entered a proper city and/or state!)</p>
       ) : (
         <>
           <Filters

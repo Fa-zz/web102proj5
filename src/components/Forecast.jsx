@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 const Forecast = ({forecast, formatDate}) => {
+    const location = useLocation();
     const forecastImgUrl = "https://cdn.weatherbit.io/static/img/icons/"
     const data = {
         "forecast": forecast
@@ -10,7 +11,7 @@ const Forecast = ({forecast, formatDate}) => {
         <div className="forecastCard">
             <Link
             style={{ color: "Blue" }}
-            to={`/forecast/${forecast.datetime}`}
+            to={`${location.pathname}/${forecast.datetime}`}
             key={forecast.datetime}
             state={data}
             >
