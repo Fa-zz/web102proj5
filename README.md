@@ -1,52 +1,49 @@
-# Web Development Project 5 - *Weather in Your City*
+# Web Development Project 6 - *Weather in your city*
 
 Submitted by: **Faezaan Ansari**
 
-This web app: **displays a weekly weather forecast for your city, with information for the current day and the next 6 days, and avg. information across the week. Users can filter the data in 2 ways: querying for weather on a specific day of the week or a filter for the probability of preciptation (%) for days of the week**
+This web app: **displays a weekly weather forecast for your city, with information for the current day and the next 6 days, and avg. information across the week. Users can filter the data in 2 ways: querying for weather on a specific day of the week or a filter for the probability of preciptation (%) for days of the week. There is additional information with each forecast (separate page for each forecast), graphs, and one can input their city and state to view the forecast**
 
-Time spent: **9** hours spent in total
+Time spent: **5** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [X] **The site has a dashboard displaying a list of data fetched using an API call**
-  - The dashboard should display at least 10 unique items, one per row
-  - The dashboard includes at least two features in each row
-- [X] **`useEffect` React hook and `async`/`await` are used**
-- [X] **The app dashboard includes at least three summary statistics about the data** 
-  - The app dashboard includes at least three summary statistics about the data, such as:
-    - *average high temp, average low temp, average preciptation chance*
-- [X] **A search bar allows the user to search for an item in the fetched data**
-  - The search bar **correctly** filters items in the list, only displaying items matching the search query
-  - The list of results dynamically updates as the user types into the search bar
-- [X] **An additional filter allows the user to restrict displayed items by specified categories**
-  - The filter restricts items in the list using a **different attribute** than the search bar 
-  - The filter **correctly** filters items in the list, only displaying items matching the filter attribute in the dashboard
-  - The dashboard list dynamically updates as the user adjusts the filter
+- [X] **Clicking on an item in the list view displays more details about it**
+  - Clicking on an item in the dashboard list navigates to a detail view for that item
+  - Detail view includes extra information about the item not included in the dashboard view
+  - The same sidebar is displayed in detail view as in dashboard view
+  - *To ensure an accurate grade, your sidebar **must** be viewable when showing the details view in your recording.*
+- [X] **Each detail view of an item has a direct, unique URL link to that item’s detail view page**
+  -  *To ensure an accurate grade, the URL/address bar of your web browser **must** be viewable in your recording.*
+- [X] **The app includes at least two unique charts developed using the fetched data that tell an interesting story**
+  - At least two charts should be incorporated into the dashboard view of the site
+  - Each chart should describe a different aspect of the dataset
+
 
 The following **optional** features are implemented:
 
-- [X] Multiple filters can be applied simultaneously
-- [X] Filters use different input types
-  - e.g., as a text input, a dropdown or radio selection, and/or a slider
-- [ ] The user can enter specific bounds for filter values
+- [ ] The site’s customized dashboard contains more content that explains what is interesting about the data 
+  - e.g., an additional description, graph annotation, suggestion for which filters to use, or an additional page that explains more about the data
+- [ ] The site allows users to toggle between different data visualizations
+  - User should be able to use some mechanism to toggle between displaying and hiding visualizations 
 
+  
 The following **additional** features are implemented:
 
-* [X] Date formatting with javascript so that datetime is easier to read
+* [X] Root landing page that allows user to input their city and state
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
 <div>
-    <a href="https://www.loom.com/share/d052ba00984643859cac9352d70ad387">
-        <p>Baltimore, MD Weather Forecast - 15 July 2025 - Watch Video</p>
-    </a>
-    <a href="https://www.loom.com/share/d052ba00984643859cac9352d70ad387">
-        <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/d052ba00984643859cac9352d70ad387-844dc0ddabe977bf-full-play.gif">
-    </a>
+  <a href="https://www.loom.com/share/d8a5989dda9d458a9a666b407c37dc8a">
+    <p>Baltimore, MD Weather Forecast - 22 July 2025 - Watch Video</p>
+  </a>
+  <a href="https://www.loom.com/share/d8a5989dda9d458a9a666b407c37dc8a">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/d8a5989dda9d458a9a666b407c37dc8a-584990f65111b572-full-play.gif">
+  </a>
 </div>
 
 <!-- Replace this with whatever GIF tool you used! -->
@@ -59,12 +56,11 @@ Loom
 
 ## Notes
 
-* Entering an empty string into the day search bar returned no results, as that is an empty string and did not match any days
-* I have 2 functions for formatting the date, which is probably an area of redundancy
+Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [2025] [name of Faezaan Ansari]
+    Copyright [2025] [Faezaan Ansari]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
