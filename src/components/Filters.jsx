@@ -39,7 +39,7 @@ function Filters({onSearchClick, leastPop, onSliderChange}) {
             onChange={sliderChange}
             style={{ width: "300px" }}
         />
-        <p>Preciptation chance: {sliderValue}% or greater</p>
+        <p>Filtering preciptation chance: {sliderValue}% or greater</p>
         </div>
   );
 }

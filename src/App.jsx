@@ -3,6 +3,7 @@ import { useLocation } from 'react-router'
 import './App.css'
 import Forecast from "./components/Forecast"
 import Filters from "./components/Filters"
+import Graphs from "./components/Graphs"
 const API_KEY = import.meta.env.VITE_APP_API_KEY
 import { formatDateFull, formatDateDay } from './formatDate.js';
 
@@ -93,6 +94,7 @@ function App() {
             leastPop={leastPop}
             onSliderChange={handleSliderChange}
           />
+          <Graphs forecasts={mainForecastArray}/>
           {filteredForecastArray.map((forecast, i) => (
             <Forecast forecast={forecast} key={i} formatDate={formatDateFull} />
           ))}
